@@ -1,7 +1,8 @@
+const inquirer = require("inquirer");
 const Manager = require("./lib/Manager");
 const Engineer = require("./lib/Engineer");
 const Intern = require("./lib/Intern");
-const inquirer = require("inquirer");
+
 const path = require("path");
 const fs = require("fs");
 
@@ -15,7 +16,7 @@ const idArray = [];
 
 function appMenu() {
     console.log("Please start building your team");
-    inquirer.prompt([
+    return inquirer.prompt([
         {
             type: "input",
             name: "managerName",
@@ -28,53 +29,108 @@ function appMenu() {
             }
         },
         {
-            type: "input",
-            name: "managerId",
-            message: "What is the team maanager's id?",
-            validate: answer => {
-                const pass = answer.match(
-                    /^[1-9]\d*$/
-                );
-                if (pass) {
+            type: 'input',
+            name: 'managerId',
+            message: "Please enter the manager's ID.",
+            validate: nameInput => {
+                if (isNaN(nameInput)) {
+                    console.log("Please enter the manager's ID!")
+                    return false;
+                } else {
                     return true;
                 }
-                return "Please enter a positive number greater than zero.";
+            }
+
+            
+        },
+        {
+            type: 'input',
+            name: 'managerEmail',
+            message: "Please enter the manager's email.",
+            validate: email => {
+                valid = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)
+                if (valid) {
+                    return true;
+                } else {
+                    console.log('Please enter an email!')
+                    return false;
+                }
             }
         },
         {
-            type: "input",
-            name: "managerEmail",
-            message: "What is the team manager's email?",
-            validate: answer => {
-                const pass = answer.match(
-                    /\S+@\S+\.\S+/
-                );
-                if (pass) {
+            type: 'input',
+            name: 'managerOfficeNumber',
+            message: "Please enter the manager's office number",
+            validate: nameInput => {
+                if (isNaN(nameInput)) {
+                    console.log('Please enter an office number!')
+                    return false;
+                } else {
                     return true;
                 }
-                return "Please enter a valid email address.";
-            }
-        },
-        {
-            type: "input",
-            name: "managerOfficeNumber",
-            message: "What is the team manager's office number?",
-            validate: answer => {
-                const pass = answer.match(
-                    /^[1-9]\d*$/
-                );
-                if (pass) {
-                    return true;
-                }
-                return "Please enter a positive number greater than zero.";
             }
         }
-    ]).then(answers => {
-        const manager = new Manager(answers.managerName, answers.managerId, answers.managerEmail, answers.managerOfficeNumber);
-        teamMembers.push(manager);
-        idArray.push(answers.managerId);
-        createTeam();
-    });
+    ])
+        // inquirer.prompt([
+        //     {
+        //         type: "input",
+        //         name: "managerName",
+        //         message: "What is the team manager's name?",
+        //         validate: answer => {
+        //             if (answer !== "") {
+        //                 return true;
+        //             }
+        //             return "Please enter at leaset one Character.";
+        //         }
+        //     },
+        //     {
+                // type: "input",
+                // name: "managerId",
+                // message: "What is the team maanager's id?",
+                // validate: answer => {
+                //     const pass = answer.match(
+                //         /^[1-9]\d*$/
+                //     );
+                //     if (pass) {
+                //         return true;
+                //     }
+                //     return "Please enter a positive number greater than zero.";
+                // }
+        //     },
+        //     {
+        //         type: "input",
+        //         name: "managerEmail",
+        //         message: "What is the team manager's email?",
+        //         validate: answer => {
+        //             const pass = answer.match(
+        //                 /\S+@\S+\.\S+/
+        //             );
+        //             if (pass) {
+        //                 return true;
+        //             }
+        //             return "Please enter a valid email address.";
+        //         }
+        //     },
+        //     {
+        //         type: "input",
+        //         name: "managerOfficeNumber",
+        //         message: "What is the team manager's office number?",
+        //         validate: answer => {
+        //             const pass = answer.match(
+        //                 /^[1-9]\d*$/
+        //             );
+        //             if (pass) {
+        //                 return true;
+        //             }
+        //             return "Please enter a positive number greater than zero.";
+        //         }
+        //     }
+        .then(answers => {
+            const manager = new Manager(answers.managerName, answers.managerId, answers.managerEmail, answers.managerOfficeNumber);
+            teamMembers.push(manager);
+            idArray.push(answers.managerId);
+            createTeam();
+        });
 
 
     function createTeam() {
@@ -245,6 +301,5 @@ function appMenu() {
     createManager();
 }
 appMenu();
-
 
 
