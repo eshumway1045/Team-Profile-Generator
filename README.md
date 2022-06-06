@@ -27,7 +27,7 @@
 
     ## Distributed Link
     -------------------------------------------------------
-    https://github.com/eshumway1045/Team-Profile-Generator
+    NA
 
 
     ## Installation
