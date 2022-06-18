@@ -48,7 +48,7 @@
 
     ## Tests
     -------------------------------------------------------
-    NA
+    For testing purposes you can compose your own tests or used the current tests by running npm run test after running npm install.
 
     ## Questions
     -------------------------------------------------------
